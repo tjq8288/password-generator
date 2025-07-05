@@ -51,6 +51,7 @@
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Cyber Security Background Animation */
@@ -67,6 +68,7 @@
                 radial-gradient(circle at 40% 60%, rgba(100, 181, 246, 0.05) 0%, transparent 50%);
             animation: backgroundShift 20s ease-in-out infinite;
             z-index: -1;
+            transition: background 0.3s;
         }
 
         @keyframes backgroundShift {
@@ -174,6 +176,11 @@
             cursor: pointer;
             font-size: 1.2rem;
             transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .theme-btn:hover {
@@ -198,6 +205,7 @@
             box-shadow: var(--shadow-glow);
             position: relative;
             overflow: hidden;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
         .panel::before {
@@ -410,6 +418,11 @@
             position: relative;
             overflow: hidden;
         }
+        
+        body.light-mode .generate-btn {
+            color: var(--primary-bg);
+        }
+
 
         .generate-btn:hover {
             transform: translateY(-2px);
@@ -667,6 +680,11 @@
             max-height: 200px;
             overflow-y: auto;
         }
+        
+        .password-history h3 {
+             color: var(--accent-text);
+             margin-bottom: 15px;
+        }
 
         .history-item {
             display: flex;
@@ -717,6 +735,11 @@
             border-radius: 10px;
             padding: 15px;
             margin-top: 20px;
+        }
+        
+        .bulk-results h3 {
+             color: var(--accent-text);
+             margin-bottom: 15px;
         }
 
         .bulk-password {
@@ -839,6 +862,7 @@
             .slider-container {
                 flex-direction: column;
                 gap: 10px;
+                align-items: stretch;
             }
 
             .template-selector {
@@ -847,6 +871,7 @@
 
             .quick-actions {
                 flex-direction: column;
+                align-items: stretch;
             }
         }
 
@@ -893,7 +918,7 @@
             padding: 15px 25px;
             border-radius: 8px;
             z-index: 1000;
-            transform: translateX(100%);
+            transform: translateX(calc(100% + 20px));
             transition: transform 0.3s ease;
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
         }
@@ -951,18 +976,27 @@
             --glow-blue: #3182ce;
             --glow-green: #38a169;
             --glow-purple: #805ad5;
+            --shadow-glow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         body.light-mode::before {
             background: 
-                radial-gradient(circle at 20% 20%, rgba(49, 130, 206, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(56, 161, 105, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 60%, rgba(128, 90, 213, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 20%, rgba(49, 130, 206, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(56, 161, 105, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(128, 90, 213, 0.03) 0%, transparent 50%);
         }
 
-        body.light-mode .panel {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        body.light-mode .panel,
+        body.light-mode .password-history,
+        body.light-mode .security-analysis,
+        body.light-mode .security-tips,
+        body.light-mode .bulk-results {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .header h1 {
+            text-shadow: none;
         }
     </style>
 </head>
@@ -1010,10 +1044,10 @@
                 <div class="form-group">
                     <label data-translate="templateLabel">Quick Templates</label>
                     <div class="template-selector">
-                        <button class="template-btn" onclick="applyTemplate('strong')" data-translate="strongTemplate">Strong (16자)</button>
-                        <button class="template-btn" onclick="applyTemplate('ultra')" data-translate="ultraTemplate">Ultra (32자)</button>
-                        <button class="template-btn" onclick="applyTemplate('pin')" data-translate="pinTemplate">PIN (6자 숫자)</button>
-                        <button class="template-btn" onclick="applyTemplate('memorable')" data-translate="memorableTemplate">Memorable</button>
+                        <button class="template-btn" onclick="applyTemplate('strong', event)" data-translate="strongTemplate">Strong (16자)</button>
+                        <button class="template-btn" onclick="applyTemplate('ultra', event)" data-translate="ultraTemplate">Ultra (32자)</button>
+                        <button class="template-btn" onclick="applyTemplate('pin', event)" data-translate="pinTemplate">PIN (6자 숫자)</button>
+                        <button class="template-btn" onclick="applyTemplate('memorable', event)" data-translate="memorableTemplate">Memorable</button>
                     </div>
                 </div>
 
@@ -1206,7 +1240,7 @@
                 <a href="#" data-translate="about">About</a>
                 <a href="#" data-translate="contact">Contact</a>
             </div>
-            <p data-translate="footerText">&copy; 2025 Professional Password Generator. Zero data collection, Maximum security.</p>
+            <p data-translate="footerText">© 2025 Professional Password Generator. Zero data collection, Maximum security.</p>
         </footer>
     </div>
 
@@ -1328,6 +1362,354 @@
                 about: "About",
                 contact: "Contact",
                 footerText: "© 2025 Professional Password Generator. Zero data collection, Maximum security."
+            },
+            ja: {
+                title: "🛡️ パスワードジェネレーター",
+                subtitle: "暗号学的に安全なパスワード生成",
+                securityBadge: "エンタープライズ級のセキュリティ",
+                generatorTitle: "パスワード設定",
+                templateLabel: "クイックテンプレート",
+                strongTemplate: "強力 (16文字)",
+                ultraTemplate: "超強力 (32文字)",
+                pinTemplate: "PIN (数字6桁)",
+                memorableTemplate: "覚えやすい",
+                lengthLabel: "パスワードの長さ",
+                includeStringLabel: "含めるカスタム文字列 (任意)",
+                customStringPlaceholder: "パスワードに含めるテキストを入力",
+                characterTypes: "文字タイプ",
+                uppercase: "大文字 (A-Z)",
+                lowercase: "小文字 (a-z)",
+                numbers: "数字 (0-9)",
+                symbols: "記号 (!@#$)",
+                advancedOptions: "詳細オプション",
+                excludeSimilar: "類似文字を除外 (0,O,l,1)",
+                excludeAmbiguous: "曖昧な文字を除外",
+                noSequential: "連続文字なし",
+                noRepeating: "繰り返し文字なし",
+                generateBtn: "🔐 安全なパスワードを生成",
+                generate5: "5個生成",
+                makeStronger: "より強力に",
+                exportBtn: "エクスポート",
+                bulkTitle: "🔢 一括生成",
+                generateCount: "生成数",
+                passwords: "個",
+                bulkGenerate: "一括生成",
+                resultsTitle: "セキュリティ分析",
+                copy: "コピー",
+                entropyBits: "エントロピービット",
+                strengthAnalysis: "パスワード強度",
+                weak: "弱い",
+                fair: "普通",
+                good: "良い",
+                strong: "強力",
+                length: "長さ:",
+                charset: "文字セット:",
+                crackTime: "解読時間:",
+                score: "セキュリティスコア:",
+                historyTitle: "📝 最近のパスワード",
+                bulkResults: "一括生成されたパスワード",
+                securityTips: "セキュリティのベストプラクティス",
+                tip1: "アカウントごとに固有のパスワードを使用する",
+                tip2: "最低12〜16文字を推奨",
+                tip3: "二要素認証を有効にする",
+                tip4: "安全なパスワードマネージャーに保存する",
+                tip5: "定期的にパスワードを更新する",
+                tip6: "パスワードを他人と共有しない",
+                privacy: "プライバシーポリシー",
+                security: "セキュリティ",
+                about: "概要",
+                contact: "お問い合わせ",
+                footerText: "© 2025 プロフェッショナルパスワードジェネレーター。データ収集なし、最大限のセキュリティ。"
+            },
+            zh: {
+                title: "🛡️ 密码生成器",
+                subtitle: "加密安全级密码生成",
+                securityBadge: "企业级安全",
+                generatorTitle: "密码配置",
+                templateLabel: "快速模板",
+                strongTemplate: "强 (16个字符)",
+                ultraTemplate: "超强 (32个字符)",
+                pinTemplate: "PIN (6位数字)",
+                memorableTemplate: "易于记忆",
+                lengthLabel: "密码长度",
+                includeStringLabel: "包含自定义字符串 (可选)",
+                customStringPlaceholder: "输入要包含在密码中的文本",
+                characterTypes: "字符类型",
+                uppercase: "大写字母 (A-Z)",
+                lowercase: "小写字母 (a-z)",
+                numbers: "数字 (0-9)",
+                symbols: "符号 (!@#$)",
+                advancedOptions: "高级选项",
+                excludeSimilar: "排除相似字符 (0,O,l,1)",
+                excludeAmbiguous: "排除模糊字符",
+                noSequential: "无连续字符",
+                noRepeating: "无重复字符",
+                generateBtn: "🔐 生成安全密码",
+                generate5: "生成5个",
+                makeStronger: "使其更强",
+                exportBtn: "导出",
+                bulkTitle: "🔢 批量生成",
+                generateCount: "生成数量",
+                passwords: "个",
+                bulkGenerate: "批量生成",
+                resultsTitle: "安全性分析",
+                copy: "复制",
+                entropyBits: "熵位",
+                strengthAnalysis: "密码强度",
+                weak: "弱",
+                fair: "中",
+                good: "良好",
+                strong: "强",
+                length: "长度:",
+                charset: "字符集:",
+                crackTime: "破解时间:",
+                score: "安全评分:",
+                historyTitle: "📝 最近的密码",
+                bulkResults: "批量生成的密码",
+                securityTips: "安全最佳实践",
+                tip1: "为每个帐户使用唯一的密码",
+                tip2: "建议最少12-16个字符",
+                tip3: "启用双因素认证",
+                tip4: "将密码存储在安全的管理器中",
+                tip5: "定期更新密码",
+                tip6: "切勿与他人共享密码",
+                privacy: "隐私政策",
+                security: "安全",
+                about: "关于",
+                contact: "联系我们",
+                footerText: "© 2025 专业密码生成器。零数据收集，最高安全性。"
+            },
+            es: {
+                title: "🛡️ Generador de Contraseñas",
+                subtitle: "Generación de Contraseñas Criptográficamente Seguras",
+                securityBadge: "Seguridad de Nivel Empresarial",
+                generatorTitle: "Configuración de Contraseña",
+                templateLabel: "Plantillas Rápidas",
+                strongTemplate: "Fuerte (16 caract.)",
+                ultraTemplate: "Ultra (32 caract.)",
+                pinTemplate: "PIN (6 dígitos)",
+                memorableTemplate: "Memorable",
+                lengthLabel: "Longitud de la Contraseña",
+                includeStringLabel: "Incluir Texto Personalizado (Opcional)",
+                customStringPlaceholder: "Introduzca texto para incluir en la contraseña",
+                characterTypes: "Tipos de Caracteres",
+                uppercase: "Mayúsculas (A-Z)",
+                lowercase: "Minúsculas (a-z)",
+                numbers: "Números (0-9)",
+                symbols: "Símbolos (!@#$)",
+                advancedOptions: "Opciones Avanzadas",
+                excludeSimilar: "Excluir Similares (0,O,l,1)",
+                excludeAmbiguous: "Excluir Ambiguos",
+                noSequential: "Sin Secuenciales",
+                noRepeating: "Sin Repetidos",
+                generateBtn: "🔐 Generar Contraseña Segura",
+                generate5: "Generar 5",
+                makeStronger: "Hacer más Fuerte",
+                exportBtn: "Exportar",
+                bulkTitle: "🔢 Generación Masiva",
+                generateCount: "Generar",
+                passwords: "contraseñas",
+                bulkGenerate: "Generar en Masa",
+                resultsTitle: "Análisis de Seguridad",
+                copy: "Copiar",
+                entropyBits: "Bits de Entropía",
+                strengthAnalysis: "Fortaleza de la Contraseña",
+                weak: "Débil",
+                fair: "Aceptable",
+                good: "Buena",
+                strong: "Fuerte",
+                length: "Longitud:",
+                charset: "Set de Caracteres:",
+                crackTime: "Tiempo de Crackeo:",
+                score: "Puntuación de Seguridad:",
+                historyTitle: "📝 Contraseñas Recientes",
+                bulkResults: "Contraseñas Generadas en Masa",
+                securityTips: "Mejores Prácticas de Seguridad",
+                tip1: "Use contraseñas únicas para cada cuenta",
+                tip2: "Se recomienda un mínimo de 12-16 caracteres",
+                tip3: "Habilite la autenticación de dos factores",
+                tip4: "Guarde las contraseñas en un gestor seguro",
+                tip5: "Actualice las contraseñas regularmente",
+                tip6: "Nunca comparta contraseñas con otros",
+                privacy: "Política de Privacidad",
+                security: "Seguridad",
+                about: "Acerca de",
+                contact: "Contacto",
+                footerText: "© 2025 Generador de Contraseñas Profesional. Cero recolección de datos, máxima seguridad."
+            },
+            fr: {
+                title: "🛡️ Générateur de Mots de Passe",
+                subtitle: "Génération de Mots de Passe Cryptographiquement Sûre",
+                securityBadge: "Sécurité de Niveau Entreprise",
+                generatorTitle: "Configuration du Mot de Passe",
+                templateLabel: "Modèles Rapides",
+                strongTemplate: "Fort (16 car.)",
+                ultraTemplate: "Ultra (32 car.)",
+                pinTemplate: "PIN (6 chiffres)",
+                memorableTemplate: "Mémorable",
+                lengthLabel: "Longueur du Mot de Passe",
+                includeStringLabel: "Inclure une Chaîne Personnalisée (Optionnel)",
+                customStringPlaceholder: "Entrez le texte à inclure dans le mot de passe",
+                characterTypes: "Types de Caractères",
+                uppercase: "Majuscules (A-Z)",
+                lowercase: "Minuscules (a-z)",
+                numbers: "Chiffres (0-9)",
+                symbols: "Symboles (!@#$)",
+                advancedOptions: "Options Avancées",
+                excludeSimilar: "Exclure Similaires (0,O,l,1)",
+                excludeAmbiguous: "Exclure Ambiguës",
+                noSequential: "Pas de Séquentiel",
+                noRepeating: "Pas de Répétition",
+                generateBtn: "🔐 Générer un Mot de Passe Sécurisé",
+                generate5: "Générer 5",
+                makeStronger: "Rendre plus Fort",
+                exportBtn: "Exporter",
+                bulkTitle: "🔢 Génération en Masse",
+                generateCount: "Générer",
+                passwords: "mots de passe",
+                bulkGenerate: "Générer en Masse",
+                resultsTitle: "Analyse de Sécurité",
+                copy: "Copier",
+                entropyBits: "Bits d'Entropie",
+                strengthAnalysis: "Force du Mot de Passe",
+                weak: "Faible",
+                fair: "Moyenne",
+                good: "Bonne",
+                strong: "Forte",
+                length: "Longueur:",
+                charset: "Jeu de Caractères:",
+                crackTime: "Temps de Craquage:",
+                score: "Score de Sécurité:",
+                historyTitle: "📝 Mots de Passe Récents",
+                bulkResults: "Mots de Passe Générés en Masse",
+                securityTips: "Meilleures Pratiques de Sécurité",
+                tip1: "Utilisez des mots de passe uniques pour chaque compte",
+                tip2: "Minimum de 12 à 16 caractères recommandé",
+                tip3: "Activez l'authentification à deux facteurs",
+                tip4: "Stockez les mots de passe dans un gestionnaire sécurisé",
+                tip5: "Mettez à jour les mots de passe régulièrement",
+                tip6: "Ne partagez jamais vos mots de passe",
+                privacy: "Politique de Confidentialité",
+                security: "Sécurité",
+                about: "À Propos",
+                contact: "Contact",
+                footerText: "© 2025 Générateur de Mots de Passe Professionnel. Zéro collecte de données, sécurité maximale."
+            },
+            de: {
+                title: "🛡️ Passwort-Generator",
+                subtitle: "Kryptografisch sichere Passwortgenerierung",
+                securityBadge: "Sicherheit auf Unternehmensebene",
+                generatorTitle: "Passwortkonfiguration",
+                templateLabel: "Schnellvorlagen",
+                strongTemplate: "Stark (16 Zeichen)",
+                ultraTemplate: "Ultra (32 Zeichen)",
+                pinTemplate: "PIN (6 Ziffern)",
+                memorableTemplate: "Einprägsam",
+                lengthLabel: "Passwortlänge",
+                includeStringLabel: "Benutzerdefinierte Zeichenfolge (Optional)",
+                customStringPlaceholder: "Text eingeben, der im Passwort enthalten sein soll",
+                characterTypes: "Zeichentypen",
+                uppercase: "Großbuchstaben (A-Z)",
+                lowercase: "Kleinbuchstaben (a-z)",
+                numbers: "Zahlen (0-9)",
+                symbols: "Sonderzeichen (!@#$)",
+                advancedOptions: "Erweiterte Optionen",
+                excludeSimilar: "Ähnliche ausschließen (0,O,l,1)",
+                excludeAmbiguous: "Mehrdeutige ausschließen",
+                noSequential: "Keine sequenziellen",
+                noRepeating: "Keine wiederholten",
+                generateBtn: "🔐 Sicheres Passwort generieren",
+                generate5: "5 generieren",
+                makeStronger: "Stärker machen",
+                exportBtn: "Exportieren",
+                bulkTitle: "🔢 Massengenerierung",
+                generateCount: "Generiere",
+                passwords: "Passwörter",
+                bulkGenerate: "Massen-Generierung",
+                resultsTitle: "Sicherheitsanalyse",
+                copy: "Kopieren",
+                entropyBits: "Entropie-Bits",
+                strengthAnalysis: "Passwortstärke",
+                weak: "Schwach",
+                fair: "Mittel",
+                good: "Gut",
+                strong: "Stark",
+                length: "Länge:",
+                charset: "Zeichensatz:",
+                crackTime: "Knackzeit:",
+                score: "Sicherheitsbewertung:",
+                historyTitle: "📝 Letzte Passwörter",
+                bulkResults: "Massengenerierte Passwörter",
+                securityTips: "Sicherheits-Best-Practices",
+                tip1: "Verwenden Sie für jedes Konto ein einzigartiges Passwort",
+                tip2: "Mindestens 12-16 Zeichen empfohlen",
+                tip3: "Aktivieren Sie die Zwei-Faktor-Authentifizierung",
+                tip4: "Speichern Sie Passwörter in einem sicheren Manager",
+                tip5: "Aktualisieren Sie Passwörter regelmäßig",
+                tip6: "Teilen Sie Passwörter niemals mit anderen",
+                privacy: "Datenschutzrichtlinie",
+                security: "Sicherheit",
+                about: "Über uns",
+                contact: "Kontakt",
+                footerText: "© 2025 Professioneller Passwort-Generator. Keine Datenerfassung, maximale Sicherheit."
+            },
+            ru: {
+                title: "🛡️ Генератор паролей",
+                subtitle: "Криптографически безопасная генерация паролей",
+                securityBadge: "Безопасность корпоративного уровня",
+                generatorTitle: "Настройка пароля",
+                templateLabel: "Быстрые шаблоны",
+                strongTemplate: "Надежный (16 симв.)",
+                ultraTemplate: "Сверхнадежный (32 симв.)",
+                pinTemplate: "PIN-код (6 цифр)",
+                memorableTemplate: "Запоминаемый",
+                lengthLabel: "Длина пароля",
+                includeStringLabel: "Включить свою строку (необязательно)",
+                customStringPlaceholder: "Введите текст для включения в пароль",
+                characterTypes: "Типы символов",
+                uppercase: "Верхний регистр (A-Z)",
+                lowercase: "Нижний регистр (a-z)",
+                numbers: "Цифры (0-9)",
+                symbols: "Символы (!@#$)",
+                advancedOptions: "Расширенные параметры",
+                excludeSimilar: "Исключить похожие (0,O,l,1)",
+                excludeAmbiguous: "Исключить неоднозначные",
+                noSequential: "Без последовательных",
+                noRepeating: "Без повторяющихся",
+                generateBtn: "🔐 Создать безопасный пароль",
+                generate5: "Создать 5",
+                makeStronger: "Сделать надежнее",
+                exportBtn: "Экспорт",
+                bulkTitle: "🔢 Массовая генерация",
+                generateCount: "Сгенерировать",
+                passwords: "паролей",
+                bulkGenerate: "Массовая генерация",
+                resultsTitle: "Анализ безопасности",
+                copy: "Копировать",
+                entropyBits: "Биты энтропии",
+                strengthAnalysis: "Надежность пароля",
+                weak: "Слабый",
+                fair: "Средний",
+                good: "Хороший",
+                strong: "Отличный",
+                length: "Длина:",
+                charset: "Набор символов:",
+                crackTime: "Время взлома:",
+                score: "Оценка безопасности:",
+                historyTitle: "📝 Недавние пароли",
+                bulkResults: "Массово сгенерированные пароли",
+                securityTips: "Лучшие практики безопасности",
+                tip1: "Используйте уникальные пароли для каждой учетной записи",
+                tip2: "Рекомендуется минимум 12-16 символов",
+                tip3: "Включите двухфакторную аутентификацию",
+                tip4: "Храните пароли в безопасном менеджере",
+                tip5: "Регулярно обновляйте пароли",
+                tip6: "Никогда не делитесь паролями с другими",
+                privacy: "Политика конфиденциальности",
+                security: "Безопасность",
+                about: "О нас",
+                contact: "Контакты",
+                footerText: "© 2025 Профессиональный генератор паролей. Нулевой сбор данных, максимальная безопасность."
             }
         };
 
@@ -1351,11 +1733,22 @@
             strong: { length: 16, uppercase: true, lowercase: true, numbers: true, symbols: true },
             ultra: { length: 32, uppercase: true, lowercase: true, numbers: true, symbols: true },
             pin: { length: 6, uppercase: false, lowercase: false, numbers: true, symbols: false },
-            memorable: { length: 12, uppercase: true, lowercase: true, numbers: true, symbols: false }
+            memorable: { length: 12, uppercase: true, lowercase: true, numbers: true, symbols: false, noSequential: true }
         };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme first to prevent flash
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                isDarkMode = false;
+                document.body.classList.add('light-mode');
+                document.getElementById('themeToggle').textContent = '☀️';
+            } else {
+                 isDarkMode = true;
+                 document.getElementById('themeToggle').textContent = '🌙';
+            }
+
             initializeSlider();
             applyTranslations();
             loadPasswordHistory();
@@ -1378,6 +1771,8 @@
 
         function applyTranslations() {
             const t = translations[currentLang];
+            if (!t) return;
+
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (t[key]) {
@@ -1399,7 +1794,7 @@
         }
 
         // 🔥 새로운 함수: 템플릿 적용
-        function applyTemplate(templateName) {
+        function applyTemplate(templateName, event) {
             const template = templates[templateName];
             if (!template) return;
         
@@ -1408,14 +1803,18 @@
             document.getElementById('lowercase').checked = template.lowercase;
             document.getElementById('numbers').checked = template.numbers;
             document.getElementById('symbols').checked = template.symbols;
+            
+            // Update advanced options from template if they exist
+            document.getElementById('noSequential').checked = template.noSequential || false;
         
-            // 🔥 핵심 수정: 길이 설정을 확실히 동기화
             document.getElementById('lengthSlider').value = template.length;
             document.getElementById('lengthInput').value = template.length;
         
-            // Update active template
+            // Update active template button
             document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if(event && event.target) {
+                event.target.classList.add('active');
+            }
         
             generatePassword();
         }
@@ -1425,34 +1824,43 @@
             const slider = document.getElementById('lengthSlider');
             const input = document.getElementById('lengthInput');
             
-            // 🔥 수정: input 대신 change 이벤트 사용 (마우스 떼면 실행)
-            slider.addEventListener('change', function() {
-                const value = this.value;
-                input.value = value;
-                generatePassword(); // 마우스 떼면 생성
+            slider.addEventListener('input', function() {
+                input.value = this.value;
             });
         
-            // 🔥 추가: 드래그 중에는 숫자만 업데이트 (생성은 안 함)
-            slider.addEventListener('input', function() {
-                const value = this.value;
-                input.value = value;
-                // generatePassword() 제거 - 드래그 중에는 생성 안 함
+            slider.addEventListener('change', function() {
+                input.value = this.value;
+                generatePassword();
             });
         
             input.addEventListener('input', function() {
                 let value = parseInt(this.value);
+                const min = parseInt(this.min);
+                const max = parseInt(this.max);
+
+                if (isNaN(value)) {
+                    return; 
+                }
+                if (value > max) {
+                    this.value = max;
+                    value = max;
+                }
                 
-                // 범위 제한
-                if (value < 4) value = 4;
-                if (value > 128) value = 128;
-                if (isNaN(value)) value = 16;
-                
-                this.value = value;
                 slider.value = value;
-                generatePassword(); // 숫자 입력은 즉시 생성
+            });
+
+            input.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                const min = parseInt(this.min);
+
+                if (isNaN(value) || value < min) {
+                    this.value = min;
+                    value = min;
+                }
+                slider.value = value;
+                generatePassword();
             });
         
-            // Enter 키 이벤트
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     this.blur();
@@ -1488,9 +1896,11 @@
 
             const password = generateSecurePassword(length, options, customString);
             
-            document.getElementById('generatedPassword').value = password;
-            analyzePassword(password);
-            addToHistory(password);
+            if (password) {
+                document.getElementById('generatedPassword').value = password;
+                analyzePassword(password);
+                addToHistory(password);
+            }
         }
 
         // Get password generation options
@@ -1520,141 +1930,99 @@
 
         // Cryptographically secure password generation
         function generateSecurePassword(length, options, customString = '') {
-            const { charset, noSequential, noRepeating } = options;
+            let password = '';
             
-            // 사용자 문자열이 있으면 처리
-            if (customString) {
-                // 사용자 문자열이 요청 길이보다 길면 자르기
-                if (customString.length >= length) {
-                    return customString.substring(0, length);
-                }
-                
-                // 남은 길이 계산
-                const remainingLength = length - customString.length;
-                
-                // 문자셋이 없으면 사용자 문자열만 반복
-                if (!charset) {
-                    let result = customString;
-                    while (result.length < length) {
-                        result += customString;
-                    }
-                    return result.substring(0, length);
-                }
-                
-                // 🔥 수정된 부분: 사용자 문자열을 섞지 않고 앞/뒤에 추가
-                const frontLength = Math.floor(remainingLength / 2);
-                const backLength = remainingLength - frontLength;
-                
-                let frontPart = '';
-                let backPart = '';
-                
-                // 앞부분 생성
-                frontPart = generateRandomPart(frontLength, options);
-                
-                // 뒷부분 생성
-                backPart = generateRandomPart(backLength, options);
-                
-                // 🔥 핵심: 사용자 문자열을 그대로 중간에 유지
-                const finalPassword = frontPart + customString + backPart;
-                
-                return ensureMinimumRequirements(finalPassword, options);
+            const remainingLength = length - customString.length;
+            if (remainingLength < 0) {
+                return customString.substring(0, length);
             }
+
+            const randomPart = generateRandomPart(remainingLength, options);
+            if(randomPart.length < remainingLength) {
+                // Not enough unique characters in charset for noRepeating option
+                return null;
+            }
+
+            // Insert custom string at a random position
+            const array = new Uint32Array(1);
+            crypto.getRandomValues(array);
+            const insertIndex = array[0] % (randomPart.length + 1);
             
-            // 사용자 문자열이 없으면 기존 방식대로
-            return generateRandomPart(length, options);
+            password = randomPart.slice(0, insertIndex) + customString + randomPart.slice(insertIndex);
+            
+            return ensureMinimumRequirements(password, options);
         }
         
         // 🔥 새로운 함수: 랜덤 부분 생성 (기존 로직 분리)
         function generateRandomPart(length, options) {
             const { charset, noSequential, noRepeating } = options;
+            if (!charset) return '';
+
             let password = '';
             let attempts = 0;
             const maxAttempts = 1000;
+            let tempCharset = charset.split('');
             
+            if(noRepeating && length > tempCharset.length){
+                // It's impossible to generate without repeating
+                showToast("Cannot generate with no repeating characters: length is greater than charset size.");
+                return '';
+            }
+
             while (password.length < length && attempts < maxAttempts) {
                 const array = new Uint32Array(1);
                 crypto.getRandomValues(array);
-                const randomIndex = array[0] % charset.length;
-                const char = charset[randomIndex];
-                
-                // Check constraints
-                if (noRepeating && password.includes(char)) {
-                    attempts++;
-                    continue;
-                }
+                const randomIndex = array[0] % (noRepeating ? tempCharset.length : charset.length);
+                const char = noRepeating ? tempCharset[randomIndex] : charset[randomIndex];
                 
                 if (noSequential && password.length > 0) {
                     const lastChar = password[password.length - 1];
-                    const lastCharCode = lastChar.charCodeAt(0);
-                    const currentCharCode = char.charCodeAt(0);
-                    
-                    if (Math.abs(currentCharCode - lastCharCode) === 1) {
+                    if (Math.abs(char.charCodeAt(0) - lastChar.charCodeAt(0)) === 1) {
                         attempts++;
                         continue;
                     }
                 }
                 
                 password += char;
+                if(noRepeating) {
+                    tempCharset.splice(randomIndex, 1);
+                }
                 attempts = 0;
             }
             
             return password;
         }
 
-        // Shuffle string function
-        function shuffleString(str) {
-            const arr = str.split('');
-            for (let i = arr.length - 1; i > 0; i--) {
-                const array = new Uint32Array(1);
-                crypto.getRandomValues(array);
-                const j = array[0] % (i + 1);
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr.join('');
-        }
-
         // Ensure minimum character type requirements
         function ensureMinimumRequirements(password, options) {
-            const { charset } = options;
-            const types = [];
-            
-            if (document.getElementById('uppercase').checked) types.push(charSets.uppercase);
-            if (document.getElementById('lowercase').checked) types.push(charSets.lowercase);
-            if (document.getElementById('numbers').checked) types.push(charSets.numbers);
-            if (document.getElementById('symbols').checked) types.push(charSets.symbols);
-            
-            // Check if password contains at least one character from each selected type
-            for (const type of types) {
-                if (!password.split('').some(char => type.includes(char))) {
-                    // Replace a random character with one from the missing type
+            let tempPassword = password;
+            const charPool = {
+                uppercase: document.getElementById('uppercase').checked ? charSets.uppercase : '',
+                lowercase: document.getElementById('lowercase').checked ? charSets.lowercase : '',
+                numbers: document.getElementById('numbers').checked ? charSets.numbers : '',
+                symbols: document.getElementById('symbols').checked ? charSets.symbols : ''
+            };
+
+            for (const type in charPool) {
+                const pool = charPool[type];
+                if (pool && ![...tempPassword].some(c => pool.includes(c))) {
                     const array = new Uint32Array(2);
                     crypto.getRandomValues(array);
-                    const replaceIndex = array[0] % password.length;
-                    const typeCharIndex = array[1] % type.length;
-                    
-                    password = password.substring(0, replaceIndex) + 
-                              type[typeCharIndex] + 
-                              password.substring(replaceIndex + 1);
+                    const replaceIndex = array[0] % tempPassword.length;
+                    const charIndex = array[1] % pool.length;
+                    tempPassword = tempPassword.substring(0, replaceIndex) + pool[charIndex] + tempPassword.substring(replaceIndex + 1);
                 }
             }
             
-            return password;
+            return tempPassword;
         }
 
         // 🔥 새로운 함수들: 퀵 액션
         function generateMultiple(count) {
-            const passwords = [];
-            for (let i = 0; i < count; i++) {
-                const length = parseInt(document.getElementById('lengthSlider').value);
-                const customString = document.getElementById('customString').value.trim();
-                const options = getPasswordOptions();
-                passwords.push(generateSecurePassword(length, options, customString));
-            }
-            displayBulkResults(passwords);
+            generateBulkPasswords(count);
         }
 
         function regenerateStronger() {
-            // 현재 설정을 더 강하게 만들기
             document.getElementById('symbols').checked = true;
             const currentLength = parseInt(document.getElementById('lengthSlider').value);
             const newLength = Math.min(128, currentLength + 4);
@@ -1664,44 +2032,46 @@
         }
 
         function exportPasswords() {
-            const passwords = [];
+            const passwordsToExport = [];
+            const currentPass = document.getElementById('generatedPassword').value;
+            if(currentPass) passwordsToExport.push(currentPass);
+
+            const bulkPasswords = Array.from(document.querySelectorAll('.bulk-password > span')).map(span => span.textContent);
+            passwordsToExport.push(...bulkPasswords);
+
+            const historyPasswords = passwordHistory.map(item => item.password);
+            passwordsToExport.push(...historyPasswords);
+
+            const uniquePasswords = [...new Set(passwordsToExport)];
             
-            // 현재 비밀번호 추가
-            const currentPassword = document.getElementById('generatedPassword').value;
-            if (currentPassword) passwords.push(currentPassword);
-            
-            // 히스토리 추가
-            passwords.push(...passwordHistory.map(item => item.password));
-            
-            if (passwords.length === 0) {
+            if (uniquePasswords.length === 0) {
                 showToast('No passwords to export');
                 return;
             }
             
-            const blob = new Blob([passwords.join('\n')], { type: 'text/plain' });
+            const blob = new Blob([uniquePasswords.join('\n')], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = `passwords_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
         // 🔥 새로운 함수: 패스워드 히스토리 관리
         function addToHistory(password) {
+            if(!password) return;
+
             const historyItem = {
                 password: password,
-                timestamp: new Date().toLocaleTimeString(),
-                strength: calculateSecurityScore(password)
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             };
             
-            // 중복 제거
             passwordHistory = passwordHistory.filter(item => item.password !== password);
-            
-            // 맨 앞에 추가
             passwordHistory.unshift(historyItem);
             
-            // 최대 10개까지만 저장
             if (passwordHistory.length > 10) {
                 passwordHistory = passwordHistory.slice(0, 10);
             }
@@ -1726,99 +2096,83 @@
             historyContainer.style.display = 'block';
             historyList.innerHTML = '';
             
-            passwordHistory.forEach((item, index) => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.innerHTML = `
+            passwordHistory.forEach((item) => {
+                const historyItemDiv = document.createElement('div');
+                historyItemDiv.className = 'history-item';
+                historyItemDiv.innerHTML = `
                     <div class="history-password">${item.password}</div>
                     <div class="history-time">${item.timestamp}</div>
                     <button class="history-copy" onclick="copyText('${item.password}')">📋</button>
                 `;
-                historyList.appendChild(historyItem);
+                historyList.appendChild(historyItemDiv);
             });
         }
 
         // Password analysis
         function analyzePassword(password) {
+            if (!password) return;
             const length = password.length;
             const charset = getPasswordCharsetSize(password);
             const entropy = calculateEntropy(length, charset);
             const crackTime = calculateCrackTime(entropy);
             const score = calculateSecurityScore(password);
             
-            // Update displays
             document.getElementById('entropyValue').textContent = Math.round(entropy);
             document.getElementById('analysisLength').textContent = length;
             document.getElementById('analysisCharset').textContent = charset;
             document.getElementById('analysisCrackTime').textContent = crackTime;
             document.getElementById('analysisScore').textContent = `${score}/100`;
             
-            // Update strength indicator
             updateStrengthIndicator(score);
         }
 
-        // Calculate entropy
         function calculateEntropy(length, charsetSize) {
+            if (charsetSize === 0) return 0;
             return length * Math.log2(charsetSize);
         }
 
-        // Get charset size from password
         function getPasswordCharsetSize(password) {
             let size = 0;
-            
             if (/[a-z]/.test(password)) size += 26;
             if (/[A-Z]/.test(password)) size += 26;
             if (/[0-9]/.test(password)) size += 10;
-            if (/[^a-zA-Z0-9]/.test(password)) size += 32;
-            
+            if (/[^a-zA-Z0-9]/.test(password)) size += charSets.symbols.length;
             return size;
         }
 
-        // Calculate crack time
         function calculateCrackTime(entropy) {
             const guessesPerSecond = 1e12; // 1 trillion guesses per second
             const totalCombinations = Math.pow(2, entropy);
-            const averageGuesses = totalCombinations / 2;
-            const seconds = averageGuesses / guessesPerSecond;
+            const seconds = totalCombinations / (2 * guessesPerSecond);
             
+            if (seconds < 1) return "instantly";
             if (seconds < 60) return `${Math.round(seconds)} seconds`;
             if (seconds < 3600) return `${Math.round(seconds / 60)} minutes`;
             if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
             if (seconds < 31536000) return `${Math.round(seconds / 86400)} days`;
-            if (seconds < 31536000000) return `${Math.round(seconds / 31536000)} years`;
-            return `${(seconds / 31536000000).toExponential(2)} billion years`;
+            if (seconds < 31536000e3) return `${Math.round(seconds / 31536000)} years`;
+            if (seconds < 31536000e6) return `${Math.round(seconds / 31536000e3)} thousand years`;
+            return `eons`;
         }
 
-        // Calculate security score
         function calculateSecurityScore(password) {
             let score = 0;
-            
-            // Length score (0-40 points)
-            score += Math.min(40, password.length * 2);
-            
-            // Character variety (0-30 points)
+            score += Math.min(40, password.length * 2.5);
             if (/[a-z]/.test(password)) score += 5;
             if (/[A-Z]/.test(password)) score += 5;
             if (/[0-9]/.test(password)) score += 5;
             if (/[^a-zA-Z0-9]/.test(password)) score += 15;
-            
-            // Entropy bonus (0-20 points)
             const entropy = calculateEntropy(password.length, getPasswordCharsetSize(password));
-            score += Math.min(20, entropy / 4);
-            
-            // Pattern penalties
-            if (/(.)\1{2,}/.test(password)) score -= 10; // Repeating characters
-            if (/012|123|234|345|456|567|678|789|890|abc|bcd|cde/.test(password.toLowerCase())) score -= 10; // Sequential
-            if (/password|123456|qwerty|admin|login/.test(password.toLowerCase())) score -= 20; // Common patterns
-            
+            score += Math.min(30, entropy / 3);
+            if (/(.)\1{2,}/.test(password)) score -= 10;
+            if (/123|abc|qwerty/i.test(password)) score -= 15;
             return Math.max(0, Math.min(100, Math.round(score)));
         }
 
-        // Update strength indicator
         function updateStrengthIndicator(score) {
             const strengthFill = document.getElementById('strengthFill');
             const strengthText = document.getElementById('strengthText');
-            const t = translations[currentLang];
+            const t = translations[currentLang] || translations.en;
             
             strengthFill.className = 'strength-fill';
             
@@ -1828,7 +2182,7 @@
             } else if (score < 60) {
                 strengthFill.classList.add('strength-fair');
                 strengthText.textContent = t.fair;
-            } else if (score < 80) {
+            } else if (score < 85) {
                 strengthFill.classList.add('strength-good');
                 strengthText.textContent = t.good;
             } else {
@@ -1837,34 +2191,34 @@
             }
         }
 
-        // Bulk password generation
-        function generateBulkPasswords() {
-            const count = parseInt(document.getElementById('bulkCount').value);
+        function generateBulkPasswords(predefinedCount = null) {
+            const count = predefinedCount || parseInt(document.getElementById('bulkCount').value);
             const length = parseInt(document.getElementById('lengthSlider').value);
             const customString = document.getElementById('customString').value.trim();
             const options = getPasswordOptions();
             
-            if (!options.charset && !customString) {
-                showToast('Please select at least one character type or enter custom string');
+            if ((!options.charset && !customString) || count < 1) {
+                showToast('Invalid settings for bulk generation');
                 return;
             }
             
             const passwords = [];
             for (let i = 0; i < count; i++) {
-                passwords.push(generateSecurePassword(length, options, customString));
+                const pass = generateSecurePassword(length, options, customString);
+                if (pass) passwords.push(pass);
             }
             
             displayBulkResults(passwords);
         }
 
-        // Display bulk results
         function displayBulkResults(passwords) {
             const bulkResults = document.getElementById('bulkResults');
             const passwordList = document.getElementById('bulkPasswordList');
             
+            bulkResults.style.display = 'block';
             passwordList.innerHTML = '';
             
-            passwords.forEach((password, index) => {
+            passwords.forEach((password) => {
                 const passwordDiv = document.createElement('div');
                 passwordDiv.className = 'bulk-password';
                 passwordDiv.innerHTML = `
@@ -1873,11 +2227,8 @@
                 `;
                 passwordList.appendChild(passwordDiv);
             });
-            
-            bulkResults.style.display = 'block';
         }
 
-        // Copy functions
         function copyPassword() {
             const password = document.getElementById('generatedPassword').value;
             if (password) {
@@ -1887,27 +2238,25 @@
 
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast('Password copied to clipboard!');
+                showToast('Copied to clipboard!');
             }).catch(() => {
-                // Fallback for older browsers
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                showToast('Password copied to clipboard!');
+                showToast('Copied to clipboard!');
             });
         }
 
-        // Toast notification
         function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.textContent = message;
             document.body.appendChild(toast);
             
-            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => toast.classList.add('show'), 10);
             
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -1915,25 +2264,10 @@
             }, 3000);
         }
 
-        // Auto-generate on option change
+        // Auto-generate on certain changes
         document.addEventListener('change', function(e) {
-            if (e.target.type === 'checkbox') {
+            if (e.target.type === 'checkbox' || e.target.id === 'customString') {
                 generatePassword();
-            }
-        });
-
-        // Auto-generate on custom string input
-        document.addEventListener('input', function(e) {
-            if (e.target.id === 'customString') {
-                generatePassword();
-            }
-        });
-
-        // Load saved theme
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                toggleTheme();
             }
         });
     </script>
