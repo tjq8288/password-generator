@@ -1021,8 +1021,8 @@
                 <div class="form-group">
                     <label data-translate="lengthLabel">Password Length</label>
                     <div class="slider-container">
-                        <input type="range" class="slider" id="lengthSlider" min="8" max="128" value="16">
-                        <input type="number" class="length-input-unified" id="lengthInput" min="8" max="128" value="16">
+                        <input type="range" class="slider" id="lengthSlider" min="4" max="128" value="16">
+                        <input type="number" class="length-input-unified" id="lengthInput" min="4" max="128" value="16">
                     </div>
                 </div>
 
@@ -1409,18 +1409,14 @@
             document.getElementById('numbers').checked = template.numbers;
             document.getElementById('symbols').checked = template.symbols;
         
-            // 🔥 수정된 부분: 슬라이더와 입력 필드 모두 업데이트
-            const lengthSlider = document.getElementById('lengthSlider');
-            const lengthInput = document.getElementById('lengthInput');
-            
-            lengthSlider.value = template.length;
-            lengthInput.value = template.length;
+            // 🔥 핵심 수정: 길이 설정을 확실히 동기화
+            document.getElementById('lengthSlider').value = template.length;
+            document.getElementById('lengthInput').value = template.length;
         
             // Update active template
             document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         
-            // 🔥 추가: 즉시 비밀번호 생성하여 변경사항 반영
             generatePassword();
         }
 
@@ -1429,25 +1425,33 @@
             const slider = document.getElementById('lengthSlider');
             const input = document.getElementById('lengthInput');
             
+            // 🔥 수정: input 대신 change 이벤트 사용 (마우스 떼면 실행)
+            slider.addEventListener('change', function() {
+                const value = this.value;
+                input.value = value;
+                generatePassword(); // 마우스 떼면 생성
+            });
+        
+            // 🔥 추가: 드래그 중에는 숫자만 업데이트 (생성은 안 함)
             slider.addEventListener('input', function() {
                 const value = this.value;
                 input.value = value;
-                generatePassword();
+                // generatePassword() 제거 - 드래그 중에는 생성 안 함
             });
-
+        
             input.addEventListener('input', function() {
                 let value = parseInt(this.value);
                 
                 // 범위 제한
-                if (value < 8) value = 8;
+                if (value < 4) value = 4;
                 if (value > 128) value = 128;
                 if (isNaN(value)) value = 16;
                 
                 this.value = value;
                 slider.value = value;
-                generatePassword();
+                generatePassword(); // 숫자 입력은 즉시 생성
             });
-
+        
             // Enter 키 이벤트
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -1518,26 +1522,52 @@
         function generateSecurePassword(length, options, customString = '') {
             const { charset, noSequential, noRepeating } = options;
             
-            // 사용자 문자열이 있으면 먼저 포함
-            let password = customString;
-            let remainingLength = length - customString.length;
-            
-            // 남은 길이가 음수면 사용자 문자열을 잘라냄
-            if (remainingLength < 0) {
-                password = customString.substring(0, length);
-                return password;
-            }
-            
-            // 문자셋이 없고 사용자 문자열만 있는 경우
-            if (!charset && customString) {
-                // 부족한 길이만큼 사용자 문자열을 반복
-                while (password.length < length) {
-                    password += customString;
+            // 사용자 문자열이 있으면 처리
+            if (customString) {
+                // 사용자 문자열이 요청 길이보다 길면 자르기
+                if (customString.length >= length) {
+                    return customString.substring(0, length);
                 }
-                return password.substring(0, length);
+                
+                // 남은 길이 계산
+                const remainingLength = length - customString.length;
+                
+                // 문자셋이 없으면 사용자 문자열만 반복
+                if (!charset) {
+                    let result = customString;
+                    while (result.length < length) {
+                        result += customString;
+                    }
+                    return result.substring(0, length);
+                }
+                
+                // 🔥 수정된 부분: 사용자 문자열을 섞지 않고 앞/뒤에 추가
+                const frontLength = Math.floor(remainingLength / 2);
+                const backLength = remainingLength - frontLength;
+                
+                let frontPart = '';
+                let backPart = '';
+                
+                // 앞부분 생성
+                frontPart = generateRandomPart(frontLength, options);
+                
+                // 뒷부분 생성
+                backPart = generateRandomPart(backLength, options);
+                
+                // 🔥 핵심: 사용자 문자열을 그대로 중간에 유지
+                const finalPassword = frontPart + customString + backPart;
+                
+                return ensureMinimumRequirements(finalPassword, options);
             }
             
-            // 일반적인 비밀번호 생성
+            // 사용자 문자열이 없으면 기존 방식대로
+            return generateRandomPart(length, options);
+        }
+        
+        // 🔥 새로운 함수: 랜덤 부분 생성 (기존 로직 분리)
+        function generateRandomPart(length, options) {
+            const { charset, noSequential, noRepeating } = options;
+            let password = '';
             let attempts = 0;
             const maxAttempts = 1000;
             
@@ -1565,16 +1595,10 @@
                 }
                 
                 password += char;
-                attempts = 0; // Reset attempts on successful addition
+                attempts = 0;
             }
             
-            // 사용자 문자열과 랜덤 문자를 섞음
-            if (customString && password.length > customString.length) {
-                password = shuffleString(password);
-            }
-            
-            // Ensure password meets minimum requirements
-            return ensureMinimumRequirements(password, options);
+            return password;
         }
 
         // Shuffle string function
