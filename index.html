@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta name="referrer" content="no-referrer">
+    
+    <!-- SEO Meta Tags -->
+    <title>Professional Password Generator - Cryptographically Secure | 전문 비밀번호 생성기</title>
+    <meta name="description" content="Enterprise-grade password generator with cryptographic security. Generate strong, unique passwords with advanced entropy calculation and security analysis.">
+    <meta name="keywords" content="password generator, secure passwords, cryptographic security, enterprise security, password strength, cybersecurity">
+    <link rel="canonical" href="https://tjq8288.github.io/password-generator/">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+    
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #1a1a2e;
+            --accent-bg: #16213e;
+            --primary-text: #ffffff;
+            --secondary-text: #b8c5d6;
+            --accent-text: #64b5f6;
+            --success-color: #00e676;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --border-color: #2d3748;
+            --glow-blue: #00d4ff;
+            --glow-green: #00ff88;
+            --glow-purple: #b794f6;
+            --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--primary-text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Cyber Security Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(100, 181, 246, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--glow-blue), transparent);
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { opacity: 0.5; width: 200px; }
+            50% { opacity: 1; width: 400px; }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--glow-blue), var(--glow-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--glow-blue);
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 20px;
+            color: var(--glow-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .language-selector select {
+            background: var(--accent-bg);
+            color: var(--primary-text);
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* 🔥 새로운 기능: 다크/라이트 모드 토글 */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .theme-btn {
+            background: var(--accent-bg);
+            color: var(--glow-blue);
+            border: 1px solid var(--glow-blue);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--glow-blue), var(--glow-green));
+            opacity: 0.7;
+        }
+
+        .panel h2 {
+            color: var(--accent-text);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Generator Panel */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--secondary-text);
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        /* 🔥 수정된 스타일: 통합된 길이 조절 */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            outline: none;
+            position: relative;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--glow-blue), var(--glow-green));
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--glow-blue), var(--glow-green));
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* 🔥 통합된 길이 입력 필드 */
+        .length-input-unified {
+            background: var(--accent-bg);
+            color: var(--glow-blue);
+            border: 1px solid var(--glow-blue);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 80px;
+            text-align: center;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .length-input-unified:focus {
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Text inputs */
+        .text-input {
+            background: var(--accent-bg);
+            color: var(--primary-text);
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            border-color: var(--glow-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .text-input::placeholder {
+            color: var(--secondary-text);
+            opacity: 0.7;
+        }
+
+        /* 🔥 새로운 기능: 패스워드 템플릿 */
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .template-btn {
+            background: rgba(45, 55, 72, 0.5);
+            color: var(--secondary-text);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .template-btn:hover {
+            border-color: var(--glow-blue);
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-text);
+        }
+
+        .template-btn.active {
+            border-color: var(--glow-blue);
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--glow-blue);
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--glow-blue);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--glow-blue);
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            color: var(--primary-text);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        /* Generate Button */
+        .generate-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, var(--glow-blue), var(--glow-green));
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+
+        /* 🔥 새로운 기능: 퀵 액션 버튼들 */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .quick-btn {
+            background: rgba(183, 148, 246, 0.2);
+            color: var(--glow-purple);
+            border: 1px solid var(--glow-purple);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: rgba(183, 148, 246, 0.3);
+            box-shadow: 0 0 15px rgba(183, 148, 246, 0.3);
+        }
+
+        /* Bulk Generation */
+        .bulk-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .bulk-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .bulk-input {
+            background: var(--accent-bg);
+            color: var(--primary-text);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            width: 80px;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .bulk-btn {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--glow-green);
+            border: 1px solid var(--glow-green);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .bulk-btn:hover {
+            background: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Results Panel */
+        .password-display {
+            background: var(--primary-bg);
+            border: 2px solid var(--glow-blue);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .password-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.05), rgba(0, 255, 136, 0.05));
+            z-index: 0;
+        }
+
+        .password-field {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .password-text {
+            flex: 1;
+            background: transparent;
+            color: var(--glow-blue);
+            border: none;
+            font-size: 1.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 1px;
+            outline: none;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--glow-blue);
+            border: 1px solid var(--glow-blue);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Security Analysis */
+        .security-analysis {
+            background: rgba(22, 33, 62, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .analysis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .strength-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .strength-bar {
+            width: 200px;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .strength-weak { background: var(--danger-color); width: 25%; }
+        .strength-fair { background: var(--warning-color); width: 50%; }
+        .strength-good { background: #2196f3; width: 75%; }
+        .strength-strong { background: var(--success-color); width: 100%; }
+
+        .analysis-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .analysis-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+
+        .analysis-label {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+        }
+
+        .analysis-value {
+            color: var(--accent-text);
+            font-weight: 600;
+        }
+
+        /* Entropy Display */
+        .entropy-display {
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+            border: 1px solid var(--glow-blue);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .entropy-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--glow-blue);
+            margin-bottom: 5px;
+        }
+
+        .entropy-label {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 🔥 새로운 기능: 패스워드 히스토리 */
+        .password-history {
+            background: rgba(22, 33, 62, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-password {
+            color: var(--accent-text);
+            flex: 1;
+            margin-right: 10px;
+            word-break: break-all;
+        }
+
+        .history-time {
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+            min-width: 60px;
+        }
+
+        .history-copy {
+            background: none;
+            border: none;
+            color: var(--glow-blue);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .history-copy:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        /* Bulk Results */
+        .bulk-results {
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--primary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .bulk-password {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .bulk-password:last-child {
+            border-bottom: none;
+        }
+
+        /* Security Tips */
+        .security-tips {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--glow-green);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .security-tips h3 {
+            color: var(--glow-green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            padding: 8px 0;
+            color: var(--secondary-text);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--glow-green);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            color: var(--secondary-text);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--accent-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--glow-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .analysis-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .bulk-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .slider-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .template-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--glow-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--glow-green);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--glow-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 255, 136, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Advanced Options */
+        .advanced-options {
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .advanced-toggle {
+            color: var(--accent-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .advanced-toggle:hover {
+            color: var(--glow-blue);
+        }
+
+        .advanced-content {
+            display: none;
+        }
+
+        .advanced-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 🔥 라이트 모드 스타일 */
+        body.light-mode {
+            --primary-bg: #f7fafc;
+            --secondary-bg: #edf2f7;
+            --accent-bg: #e2e8f0;
+            --primary-text: #1a202c;
+            --secondary-text: #4a5568;
+            --accent-text: #3182ce;
+            --border-color: #cbd5e0;
+            --glow-blue: #3182ce;
+            --glow-green: #38a169;
+            --glow-purple: #805ad5;
+        }
+
+        body.light-mode::before {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(49, 130, 206, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(56, 161, 105, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(128, 90, 213, 0.05) 0%, transparent 50%);
+        }
+
+        body.light-mode .panel {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeToggle">🌙</button>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="language-select" onchange="changeLanguage(this.value)">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh">中文</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="ru">Русский</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 data-translate="title">🛡️ Password Generator</h1>
+            <p class="subtitle" data-translate="subtitle">Cryptographically Secure Password Generation</p>
+            <div class="security-badge">
+                <span>🔒</span>
+                <span data-translate="securityBadge">Enterprise-Grade Security</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Generator Panel -->
+            <div class="panel">
+                <h2>
+                    <span>⚙️</span>
+                    <span data-translate="generatorTitle">Password Configuration</span>
+                </h2>
+
+                <!-- 🔥 새로운 기능: 패스워드 템플릿 -->
+                <div class="form-group">
+                    <label data-translate="templateLabel">Quick Templates</label>
+                    <div class="template-selector">
+                        <button class="template-btn" onclick="applyTemplate('strong')" data-translate="strongTemplate">Strong (16자)</button>
+                        <button class="template-btn" onclick="applyTemplate('ultra')" data-translate="ultraTemplate">Ultra (32자)</button>
+                        <button class="template-btn" onclick="applyTemplate('pin')" data-translate="pinTemplate">PIN (6자 숫자)</button>
+                        <button class="template-btn" onclick="applyTemplate('memorable')" data-translate="memorableTemplate">Memorable</button>
+                    </div>
+                </div>
+
+                <!-- 🔥 수정된 부분: 통합된 길이 조절 -->
+                <div class="form-group">
+                    <label data-translate="lengthLabel">Password Length</label>
+                    <div class="slider-container">
+                        <input type="range" class="slider" id="lengthSlider" min="8" max="128" value="16">
+                        <input type="number" class="length-input-unified" id="lengthInput" min="8" max="128" value="16">
+                    </div>
+                </div>
+
+                <!-- 사용자 문자열 입력 -->
+                <div class="form-group">
+                    <label data-translate="includeStringLabel">Include Custom String (Optional)</label>
+                    <input type="text" class="text-input" id="customString" placeholder="Enter text to include in password" data-translate-placeholder="customStringPlaceholder">
+                </div>
+
+                <!-- Character Types -->
+                <div class="form-group">
+                    <label data-translate="characterTypes">Character Types</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="uppercase" checked>
+                            <label for="uppercase" data-translate="uppercase">Uppercase (A-Z)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="lowercase" checked>
+                            <label for="lowercase" data-translate="lowercase">Lowercase (a-z)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="numbers" checked>
+                            <label for="numbers" data-translate="numbers">Numbers (0-9)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symbols" checked>
+                            <label for="symbols" data-translate="symbols">Symbols (!@#$)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="advanced-options">
+                    <div class="advanced-toggle" onclick="toggleAdvanced()">
+                        <span>🔧</span>
+                        <span data-translate="advancedOptions">Advanced Options</span>
+                        <span id="advancedIcon">▼</span>
+                    </div>
+                    <div class="advanced-content" id="advancedContent">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="excludeSimilar">
+                                <label for="excludeSimilar" data-translate="excludeSimilar">Exclude Similar (0,O,l,1)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="excludeAmbiguous">
+                                <label for="excludeAmbiguous" data-translate="excludeAmbiguous">Exclude Ambiguous</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noSequential">
+                                <label for="noSequential" data-translate="noSequential">No Sequential</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noRepeating">
+                                <label for="noRepeating" data-translate="noRepeating">No Repeating</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <div class="generate-section">
+                    <button class="generate-btn" onclick="generatePassword()">
+                        <span data-translate="generateBtn">🔐 Generate Secure Password</span>
+                    </button>
+                    
+                    <!-- 🔥 새로운 기능: 퀵 액션 버튼들 -->
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="generateMultiple(5)" data-translate="generate5">Generate 5</button>
+                        <button class="quick-btn" onclick="regenerateStronger()" data-translate="makeStronger">Make Stronger</button>
+                        <button class="quick-btn" onclick="exportPasswords()" data-translate="exportBtn">Export</button>
+                    </div>
+                </div>
+
+                <!-- Bulk Generation -->
+                <div class="bulk-section">
+                    <h3 data-translate="bulkTitle">🔢 Bulk Generation</h3>
+                    <div class="bulk-controls">
+                        <span data-translate="generateCount">Generate</span>
+                        <input type="number" class="bulk-input" id="bulkCount" min="1" max="100" value="5">
+                        <span data-translate="passwords">passwords</span>
+                        <button class="bulk-btn" onclick="generateBulkPasswords()">
+                            <span data-translate="bulkGenerate">Generate Bulk</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel">
+                <h2>
+                    <span>📊</span>
+                    <span data-translate="resultsTitle">Security Analysis</span>
+                </h2>
+
+                <!-- Generated Password Display -->
+                <div class="password-display">
+                    <div class="password-field">
+                        <input type="text" class="password-text" id="generatedPassword" readonly placeholder="Click Generate to create a secure password">
+                        <button class="copy-btn" onclick="copyPassword()">
+                            <span>📋</span>
+                            <span data-translate="copy">Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Entropy Display -->
+                <div class="entropy-display">
+                    <div class="entropy-value" id="entropyValue">0</div>
+                    <div class="entropy-label" data-translate="entropyBits">Entropy Bits</div>
+                </div>
+
+                <!-- Security Analysis -->
+                <div class="security-analysis">
+                    <div class="analysis-header">
+                        <h3 data-translate="strengthAnalysis">Password Strength</h3>
+                        <div class="strength-indicator">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <span id="strengthText" data-translate="weak">Weak</span>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-details">
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-translate="length">Length:</span>
+                            <span class="analysis-value" id="analysisLength">0</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-translate="charset">Character Set:</span>
+                            <span class="analysis-value" id="analysisCharset">0</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-translate="crackTime">Crack Time:</span>
+                            <span class="analysis-value" id="analysisCrackTime">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label" data-translate="score">Security Score:</span>
+                            <span class="analysis-value" id="analysisScore">0/100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🔥 새로운 기능: 패스워드 히스토리 -->
+                <div class="password-history" id="passwordHistory" style="display: none;">
+                    <h3 data-translate="historyTitle">📝 Recent Passwords</h3>
+                    <div id="historyList"></div>
+                </div>
+
+                <!-- Bulk Results -->
+                <div class="bulk-results" id="bulkResults" style="display: none;">
+                    <h3 data-translate="bulkResults">Bulk Generated Passwords</h3>
+                    <div id="bulkPasswordList"></div>
+                </div>
+
+                <!-- Security Tips -->
+                <div class="security-tips">
+                    <h3>
+                        <span>💡</span>
+                        <span data-translate="securityTips">Security Best Practices</span>
+                    </h3>
+                    <ul class="tips-list">
+                        <li data-translate="tip1">Use unique passwords for each account</li>
+                        <li data-translate="tip2">Minimum 12-16 characters recommended</li>
+                        <li data-translate="tip3">Enable two-factor authentication</li>
+                        <li data-translate="tip4">Store passwords in a secure manager</li>
+                        <li data-translate="tip5">Update passwords regularly</li>
+                        <li data-translate="tip6">Never share passwords with others</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" data-translate="privacy">Privacy Policy</a>
+                <a href="#" data-translate="security">Security</a>
+                <a href="#" data-translate="about">About</a>
+                <a href="#" data-translate="contact">Contact</a>
+            </div>
+            <p data-translate="footerText">&copy; 2025 Professional Password Generator. Zero data collection, Maximum security.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 🔥 업데이트된 번역 데이터 (새 기능들 추가)
+        const translations = {
+            ko: {
+                title: "🛡️ 전문 비밀번호 생성기",
+                subtitle: "암호학적 보안 비밀번호 생성",
+                securityBadge: "엔터프라이즈급 보안",
+                generatorTitle: "비밀번호 설정",
+                templateLabel: "빠른 템플릿",
+                strongTemplate: "강력 (16자)",
+                ultraTemplate: "초강력 (32자)",
+                pinTemplate: "PIN (6자 숫자)",
+                memorableTemplate: "기억하기 쉬운",
+                lengthLabel: "비밀번호 길이",
+                includeStringLabel: "포함할 문자열 (선택사항)",
+                customStringPlaceholder: "비밀번호에 포함할 텍스트 입력",
+                characterTypes: "문자 유형",
+                uppercase: "대문자 (A-Z)",
+                lowercase: "소문자 (a-z)",
+                numbers: "숫자 (0-9)",
+                symbols: "특수문자 (!@#$)",
+                advancedOptions: "고급 옵션",
+                excludeSimilar: "유사문자 제외 (0,O,l,1)",
+                excludeAmbiguous: "모호한 문자 제외",
+                noSequential: "연속 문자 금지",
+                noRepeating: "반복 문자 금지",
+                generateBtn: "🔐 보안 비밀번호 생성",
+                generate5: "5개 생성",
+                makeStronger: "더 강하게",
+                exportBtn: "내보내기",
+                bulkTitle: "🔢 대량 생성",
+                generateCount: "생성 개수",
+                passwords: "개",
+                bulkGenerate: "대량 생성",
+                resultsTitle: "보안 분석",
+                copy: "복사",
+                entropyBits: "엔트로피 비트",
+                strengthAnalysis: "비밀번호 강도",
+                weak: "약함",
+                fair: "보통",
+                good: "좋음",
+                strong: "강함",
+                length: "길이:",
+                charset: "문자 집합:",
+                crackTime: "해킹 시간:",
+                score: "보안 점수:",
+                historyTitle: "📝 최근 비밀번호",
+                bulkResults: "대량 생성된 비밀번호",
+                securityTips: "보안 모범 사례",
+                tip1: "각 계정마다 고유한 비밀번호 사용",
+                tip2: "최소 12-16자 이상 권장",
+                tip3: "2단계 인증 활성화",
+                tip4: "보안 관리자에 비밀번호 저장",
+                tip5: "정기적으로 비밀번호 업데이트",
+                tip6: "다른 사람과 비밀번호 공유 금지",
+                privacy: "개인정보 보호정책",
+                security: "보안",
+                about: "소개",
+                contact: "연락처",
+                footerText: "© 2025 전문 비밀번호 생성기. 데이터 수집 없음, 최대 보안."
+            },
+            en: {
+                title: "🛡️ Password Generator",
+                subtitle: "Cryptographically Secure Password Generation",
+                securityBadge: "Enterprise-Grade Security",
+                generatorTitle: "Password Configuration",
+                templateLabel: "Quick Templates",
+                strongTemplate: "Strong (16 chars)",
+                ultraTemplate: "Ultra (32 chars)",
+                pinTemplate: "PIN (6 digits)",
+                memorableTemplate: "Memorable",
+                lengthLabel: "Password Length",
+                includeStringLabel: "Include Custom String (Optional)",
+                customStringPlaceholder: "Enter text to include in password",
+                characterTypes: "Character Types",
+                uppercase: "Uppercase (A-Z)",
+                lowercase: "Lowercase (a-z)",
+                numbers: "Numbers (0-9)",
+                symbols: "Symbols (!@#$)",
+                advancedOptions: "Advanced Options",
+                excludeSimilar: "Exclude Similar (0,O,l,1)",
+                excludeAmbiguous: "Exclude Ambiguous",
+                noSequential: "No Sequential",
+                noRepeating: "No Repeating",
+                generateBtn: "🔐 Generate Secure Password",
+                generate5: "Generate 5",
+                makeStronger: "Make Stronger",
+                exportBtn: "Export",
+                bulkTitle: "🔢 Bulk Generation",
+                generateCount: "Generate",
+                passwords: "passwords",
+                bulkGenerate: "Generate Bulk",
+                resultsTitle: "Security Analysis",
+                copy: "Copy",
+                entropyBits: "Entropy Bits",
+                strengthAnalysis: "Password Strength",
+                weak: "Weak",
+                fair: "Fair",
+                good: "Good",
+                strong: "Strong",
+                length: "Length:",
+                charset: "Character Set:",
+                crackTime: "Crack Time:",
+                score: "Security Score:",
+                historyTitle: "📝 Recent Passwords",
+                bulkResults: "Bulk Generated Passwords",
+                securityTips: "Security Best Practices",
+                tip1: "Use unique passwords for each account",
+                tip2: "Minimum 12-16 characters recommended",
+                tip3: "Enable two-factor authentication",
+                tip4: "Store passwords in a secure manager",
+                tip5: "Update passwords regularly",
+                tip6: "Never share passwords with others",
+                privacy: "Privacy Policy",
+                security: "Security",
+                about: "About",
+                contact: "Contact",
+                footerText: "© 2025 Professional Password Generator. Zero data collection, Maximum security."
+            }
+        };
+
+        // Global variables
+        let currentLang = 'ko';
+        let passwordHistory = JSON.parse(localStorage.getItem('passwordHistory') || '[]');
+        let isDarkMode = true;
+
+        // Character sets
+        const charSets = {
+            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            lowercase: 'abcdefghijklmnopqrstuvwxyz',
+            numbers: '0123456789',
+            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+            similar: '0O1lI',
+            ambiguous: '{}[]()/\\\'"`~,;.<>'
+        };
+
+        // 🔥 패스워드 템플릿
+        const templates = {
+            strong: { length: 16, uppercase: true, lowercase: true, numbers: true, symbols: true },
+            ultra: { length: 32, uppercase: true, lowercase: true, numbers: true, symbols: true },
+            pin: { length: 6, uppercase: false, lowercase: false, numbers: true, symbols: false },
+            memorable: { length: 12, uppercase: true, lowercase: true, numbers: true, symbols: false }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSlider();
+            applyTranslations();
+            loadPasswordHistory();
+            generatePassword(); // Generate initial password
+        });
+
+        // 🔥 새로운 함수: 테마 토글
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('light-mode', !isDarkMode);
+            document.getElementById('themeToggle').textContent = isDarkMode ? '🌙' : '☀️';
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Language functions
+        function changeLanguage(lang) {
+            currentLang = lang;
+            applyTranslations();
+        }
+
+        function applyTranslations() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (t[key]) {
+                    element.textContent = t[key];
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                if (t[key]) {
+                    element.placeholder = t[key];
+                }
+            });
+
+            // Also update strength text immediately
+            const currentScore = parseInt(document.getElementById('analysisScore').textContent.split('/')[0]) || 0;
+            updateStrengthIndicator(currentScore);
+        }
+
+        // 🔥 새로운 함수: 템플릿 적용
+        function applyTemplate(templateName) {
+            const template = templates[templateName];
+            if (!template) return;
+        
+            // Update checkboxes
+            document.getElementById('uppercase').checked = template.uppercase;
+            document.getElementById('lowercase').checked = template.lowercase;
+            document.getElementById('numbers').checked = template.numbers;
+            document.getElementById('symbols').checked = template.symbols;
+        
+            // 🔥 수정된 부분: 슬라이더와 입력 필드 모두 업데이트
+            const lengthSlider = document.getElementById('lengthSlider');
+            const lengthInput = document.getElementById('lengthInput');
+            
+            lengthSlider.value = template.length;
+            lengthInput.value = template.length;
+        
+            // Update active template
+            document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        
+            // 🔥 추가: 즉시 비밀번호 생성하여 변경사항 반영
+            generatePassword();
+        }
+
+        // 🔥 수정된 함수: 슬라이더와 숫자 입력 동기화 (통합)
+        function initializeSlider() {
+            const slider = document.getElementById('lengthSlider');
+            const input = document.getElementById('lengthInput');
+            
+            slider.addEventListener('input', function() {
+                const value = this.value;
+                input.value = value;
+                generatePassword();
+            });
+
+            input.addEventListener('input', function() {
+                let value = parseInt(this.value);
+                
+                // 범위 제한
+                if (value < 8) value = 8;
+                if (value > 128) value = 128;
+                if (isNaN(value)) value = 16;
+                
+                this.value = value;
+                slider.value = value;
+                generatePassword();
+            });
+
+            // Enter 키 이벤트
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.blur();
+                    generatePassword();
+                }
+            });
+        }
+
+        // Advanced options toggle
+        function toggleAdvanced() {
+            const content = document.getElementById('advancedContent');
+            const icon = document.getElementById('advancedIcon');
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('show');
+                icon.textContent = '▲';
+            }
+        }
+
+        // Main password generation function
+        function generatePassword() {
+            const length = parseInt(document.getElementById('lengthSlider').value);
+            const customString = document.getElementById('customString').value.trim();
+            const options = getPasswordOptions();
+            
+            if (!options.charset && !customString) {
+                showToast('Please select at least one character type or enter custom string');
+                return;
+            }
+
+            const password = generateSecurePassword(length, options, customString);
+            
+            document.getElementById('generatedPassword').value = password;
+            analyzePassword(password);
+            addToHistory(password);
+        }
+
+        // Get password generation options
+        function getPasswordOptions() {
+            let charset = '';
+            
+            if (document.getElementById('uppercase').checked) charset += charSets.uppercase;
+            if (document.getElementById('lowercase').checked) charset += charSets.lowercase;
+            if (document.getElementById('numbers').checked) charset += charSets.numbers;
+            if (document.getElementById('symbols').checked) charset += charSets.symbols;
+            
+            // Apply advanced options
+            if (document.getElementById('excludeSimilar')?.checked) {
+                charset = charset.split('').filter(char => !charSets.similar.includes(char)).join('');
+            }
+            
+            if (document.getElementById('excludeAmbiguous')?.checked) {
+                charset = charset.split('').filter(char => !charSets.ambiguous.includes(char)).join('');
+            }
+            
+            return {
+                charset,
+                noSequential: document.getElementById('noSequential')?.checked || false,
+                noRepeating: document.getElementById('noRepeating')?.checked || false
+            };
+        }
+
+        // Cryptographically secure password generation
+        function generateSecurePassword(length, options, customString = '') {
+            const { charset, noSequential, noRepeating } = options;
+            
+            // 사용자 문자열이 있으면 먼저 포함
+            let password = customString;
+            let remainingLength = length - customString.length;
+            
+            // 남은 길이가 음수면 사용자 문자열을 잘라냄
+            if (remainingLength < 0) {
+                password = customString.substring(0, length);
+                return password;
+            }
+            
+            // 문자셋이 없고 사용자 문자열만 있는 경우
+            if (!charset && customString) {
+                // 부족한 길이만큼 사용자 문자열을 반복
+                while (password.length < length) {
+                    password += customString;
+                }
+                return password.substring(0, length);
+            }
+            
+            // 일반적인 비밀번호 생성
+            let attempts = 0;
+            const maxAttempts = 1000;
+            
+            while (password.length < length && attempts < maxAttempts) {
+                const array = new Uint32Array(1);
+                crypto.getRandomValues(array);
+                const randomIndex = array[0] % charset.length;
+                const char = charset[randomIndex];
+                
+                // Check constraints
+                if (noRepeating && password.includes(char)) {
+                    attempts++;
+                    continue;
+                }
+                
+                if (noSequential && password.length > 0) {
+                    const lastChar = password[password.length - 1];
+                    const lastCharCode = lastChar.charCodeAt(0);
+                    const currentCharCode = char.charCodeAt(0);
+                    
+                    if (Math.abs(currentCharCode - lastCharCode) === 1) {
+                        attempts++;
+                        continue;
+                    }
+                }
+                
+                password += char;
+                attempts = 0; // Reset attempts on successful addition
+            }
+            
+            // 사용자 문자열과 랜덤 문자를 섞음
+            if (customString && password.length > customString.length) {
+                password = shuffleString(password);
+            }
+            
+            // Ensure password meets minimum requirements
+            return ensureMinimumRequirements(password, options);
+        }
+
+        // Shuffle string function
+        function shuffleString(str) {
+            const arr = str.split('');
+            for (let i = arr.length - 1; i > 0; i--) {
+                const array = new Uint32Array(1);
+                crypto.getRandomValues(array);
+                const j = array[0] % (i + 1);
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr.join('');
+        }
+
+        // Ensure minimum character type requirements
+        function ensureMinimumRequirements(password, options) {
+            const { charset } = options;
+            const types = [];
+            
+            if (document.getElementById('uppercase').checked) types.push(charSets.uppercase);
+            if (document.getElementById('lowercase').checked) types.push(charSets.lowercase);
+            if (document.getElementById('numbers').checked) types.push(charSets.numbers);
+            if (document.getElementById('symbols').checked) types.push(charSets.symbols);
+            
+            // Check if password contains at least one character from each selected type
+            for (const type of types) {
+                if (!password.split('').some(char => type.includes(char))) {
+                    // Replace a random character with one from the missing type
+                    const array = new Uint32Array(2);
+                    crypto.getRandomValues(array);
+                    const replaceIndex = array[0] % password.length;
+                    const typeCharIndex = array[1] % type.length;
+                    
+                    password = password.substring(0, replaceIndex) + 
+                              type[typeCharIndex] + 
+                              password.substring(replaceIndex + 1);
+                }
+            }
+            
+            return password;
+        }
+
+        // 🔥 새로운 함수들: 퀵 액션
+        function generateMultiple(count) {
+            const passwords = [];
+            for (let i = 0; i < count; i++) {
+                const length = parseInt(document.getElementById('lengthSlider').value);
+                const customString = document.getElementById('customString').value.trim();
+                const options = getPasswordOptions();
+                passwords.push(generateSecurePassword(length, options, customString));
+            }
+            displayBulkResults(passwords);
+        }
+
+        function regenerateStronger() {
+            // 현재 설정을 더 강하게 만들기
+            document.getElementById('symbols').checked = true;
+            const currentLength = parseInt(document.getElementById('lengthSlider').value);
+            const newLength = Math.min(128, currentLength + 4);
+            document.getElementById('lengthSlider').value = newLength;
+            document.getElementById('lengthInput').value = newLength;
+            generatePassword();
+        }
+
+        function exportPasswords() {
+            const passwords = [];
+            
+            // 현재 비밀번호 추가
+            const currentPassword = document.getElementById('generatedPassword').value;
+            if (currentPassword) passwords.push(currentPassword);
+            
+            // 히스토리 추가
+            passwords.push(...passwordHistory.map(item => item.password));
+            
+            if (passwords.length === 0) {
+                showToast('No passwords to export');
+                return;
+            }
+            
+            const blob = new Blob([passwords.join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `passwords_${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 🔥 새로운 함수: 패스워드 히스토리 관리
+        function addToHistory(password) {
+            const historyItem = {
+                password: password,
+                timestamp: new Date().toLocaleTimeString(),
+                strength: calculateSecurityScore(password)
+            };
+            
+            // 중복 제거
+            passwordHistory = passwordHistory.filter(item => item.password !== password);
+            
+            // 맨 앞에 추가
+            passwordHistory.unshift(historyItem);
+            
+            // 최대 10개까지만 저장
+            if (passwordHistory.length > 10) {
+                passwordHistory = passwordHistory.slice(0, 10);
+            }
+            
+            localStorage.setItem('passwordHistory', JSON.stringify(passwordHistory));
+            updateHistoryDisplay();
+        }
+
+        function loadPasswordHistory() {
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('passwordHistory');
+            const historyList = document.getElementById('historyList');
+            
+            if (passwordHistory.length === 0) {
+                historyContainer.style.display = 'none';
+                return;
+            }
+            
+            historyContainer.style.display = 'block';
+            historyList.innerHTML = '';
+            
+            passwordHistory.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-password">${item.password}</div>
+                    <div class="history-time">${item.timestamp}</div>
+                    <button class="history-copy" onclick="copyText('${item.password}')">📋</button>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Password analysis
+        function analyzePassword(password) {
+            const length = password.length;
+            const charset = getPasswordCharsetSize(password);
+            const entropy = calculateEntropy(length, charset);
+            const crackTime = calculateCrackTime(entropy);
+            const score = calculateSecurityScore(password);
+            
+            // Update displays
+            document.getElementById('entropyValue').textContent = Math.round(entropy);
+            document.getElementById('analysisLength').textContent = length;
+            document.getElementById('analysisCharset').textContent = charset;
+            document.getElementById('analysisCrackTime').textContent = crackTime;
+            document.getElementById('analysisScore').textContent = `${score}/100`;
+            
+            // Update strength indicator
+            updateStrengthIndicator(score);
+        }
+
+        // Calculate entropy
+        function calculateEntropy(length, charsetSize) {
+            return length * Math.log2(charsetSize);
+        }
+
+        // Get charset size from password
+        function getPasswordCharsetSize(password) {
+            let size = 0;
+            
+            if (/[a-z]/.test(password)) size += 26;
+            if (/[A-Z]/.test(password)) size += 26;
+            if (/[0-9]/.test(password)) size += 10;
+            if (/[^a-zA-Z0-9]/.test(password)) size += 32;
+            
+            return size;
+        }
+
+        // Calculate crack time
+        function calculateCrackTime(entropy) {
+            const guessesPerSecond = 1e12; // 1 trillion guesses per second
+            const totalCombinations = Math.pow(2, entropy);
+            const averageGuesses = totalCombinations / 2;
+            const seconds = averageGuesses / guessesPerSecond;
+            
+            if (seconds < 60) return `${Math.round(seconds)} seconds`;
+            if (seconds < 3600) return `${Math.round(seconds / 60)} minutes`;
+            if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
+            if (seconds < 31536000) return `${Math.round(seconds / 86400)} days`;
+            if (seconds < 31536000000) return `${Math.round(seconds / 31536000)} years`;
+            return `${(seconds / 31536000000).toExponential(2)} billion years`;
+        }
+
+        // Calculate security score
+        function calculateSecurityScore(password) {
+            let score = 0;
+            
+            // Length score (0-40 points)
+            score += Math.min(40, password.length * 2);
+            
+            // Character variety (0-30 points)
+            if (/[a-z]/.test(password)) score += 5;
+            if (/[A-Z]/.test(password)) score += 5;
+            if (/[0-9]/.test(password)) score += 5;
+            if (/[^a-zA-Z0-9]/.test(password)) score += 15;
+            
+            // Entropy bonus (0-20 points)
+            const entropy = calculateEntropy(password.length, getPasswordCharsetSize(password));
+            score += Math.min(20, entropy / 4);
+            
+            // Pattern penalties
+            if (/(.)\1{2,}/.test(password)) score -= 10; // Repeating characters
+            if (/012|123|234|345|456|567|678|789|890|abc|bcd|cde/.test(password.toLowerCase())) score -= 10; // Sequential
+            if (/password|123456|qwerty|admin|login/.test(password.toLowerCase())) score -= 20; // Common patterns
+            
+            return Math.max(0, Math.min(100, Math.round(score)));
+        }
+
+        // Update strength indicator
+        function updateStrengthIndicator(score) {
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            const t = translations[currentLang];
+            
+            strengthFill.className = 'strength-fill';
+            
+            if (score < 30) {
+                strengthFill.classList.add('strength-weak');
+                strengthText.textContent = t.weak;
+            } else if (score < 60) {
+                strengthFill.classList.add('strength-fair');
+                strengthText.textContent = t.fair;
+            } else if (score < 80) {
+                strengthFill.classList.add('strength-good');
+                strengthText.textContent = t.good;
+            } else {
+                strengthFill.classList.add('strength-strong');
+                strengthText.textContent = t.strong;
+            }
+        }
+
+        // Bulk password generation
+        function generateBulkPasswords() {
+            const count = parseInt(document.getElementById('bulkCount').value);
+            const length = parseInt(document.getElementById('lengthSlider').value);
+            const customString = document.getElementById('customString').value.trim();
+            const options = getPasswordOptions();
+            
+            if (!options.charset && !customString) {
+                showToast('Please select at least one character type or enter custom string');
+                return;
+            }
+            
+            const passwords = [];
+            for (let i = 0; i < count; i++) {
+                passwords.push(generateSecurePassword(length, options, customString));
+            }
+            
+            displayBulkResults(passwords);
+        }
+
+        // Display bulk results
+        function displayBulkResults(passwords) {
+            const bulkResults = document.getElementById('bulkResults');
+            const passwordList = document.getElementById('bulkPasswordList');
+            
+            passwordList.innerHTML = '';
+            
+            passwords.forEach((password, index) => {
+                const passwordDiv = document.createElement('div');
+                passwordDiv.className = 'bulk-password';
+                passwordDiv.innerHTML = `
+                    <span>${password}</span>
+                    <button class="copy-btn" onclick="copyText('${password}')">📋</button>
+                `;
+                passwordList.appendChild(passwordDiv);
+            });
+            
+            bulkResults.style.display = 'block';
+        }
+
+        // Copy functions
+        function copyPassword() {
+            const password = document.getElementById('generatedPassword').value;
+            if (password) {
+                copyText(password);
+            }
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Password copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Password copied to clipboard!');
+            });
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Auto-generate on option change
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                generatePassword();
+            }
+        });
+
+        // Auto-generate on custom string input
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'customString') {
+                generatePassword();
+            }
+        });
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>
