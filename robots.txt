@@ -1,0 +1,468 @@
+# Professional Password Generator - Advanced Robots.txt
+# Optimized for Security & Enterprise Traffic
+# Last Updated: 2025-07-05
+
+# ==============================================
+# SEARCH ENGINE OPTIMIZATION
+# ==============================================
+
+# Google (Primary Search Engine)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Mobile
+Allow: /
+Crawl-delay: 1
+
+# Bing (Microsoft Search - Important for Enterprise)
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: msnbot
+Allow: /
+Crawl-delay: 2
+
+# Yandex (Russian Search Engine)
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 3
+
+User-agent: YandexImages
+Allow: /
+Crawl-delay: 3
+
+# Baidu (Chinese Search Engine)
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 3
+
+User-agent: Baiduspider-image
+Allow: /
+Crawl-delay: 3
+
+# DuckDuckGo (Privacy-focused - relevant for security tools)
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Naver (Korean Search Engine)
+User-agent: Yeti
+Allow: /
+Crawl-delay: 2
+
+# ==============================================
+# SOCIAL MEDIA CRAWLERS (Security Community)
+# ==============================================
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 1
+
+# Twitter/X (Important for cybersecurity community)
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+# LinkedIn (Professional/Enterprise market)
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+# WhatsApp
+User-agent: WhatsApp
+Allow: /
+Crawl-delay: 1
+
+# Telegram
+User-agent: TelegramBot
+Allow: /
+Crawl-delay: 1
+
+# Reddit (Security subreddits)
+User-agent: redditbot
+Allow: /
+Crawl-delay: 2
+
+# Discord (Security communities)
+User-agent: Discordbot
+Allow: /
+Crawl-delay: 2
+
+# ==============================================
+# ENTERPRISE & SECURITY CRAWLERS
+# ==============================================
+
+# Microsoft Security (Enterprise focus)
+User-agent: Microsoft-Security
+Allow: /
+Crawl-delay: 2
+
+# Google Security Scanner
+User-agent: Google-Security-Scanner
+Allow: /
+Crawl-delay: 3
+
+# Enterprise Search Engines
+User-agent: Enterprise-Search
+Allow: /
+Crawl-delay: 2
+
+# ==============================================
+# SEO & ANALYTICS TOOLS
+# ==============================================
+
+# Ahrefs
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 5
+
+# SEMrush
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 5
+
+# Moz
+User-agent: rogerbot
+Allow: /
+Crawl-delay: 5
+
+# Screaming Frog
+User-agent: Screaming Frog SEO Spider
+Allow: /
+Crawl-delay: 3
+
+# Majestic SEO
+User-agent: MJ12bot
+Allow: /
+Crawl-delay: 10
+
+# ==============================================
+# SECURITY SCANNERS & RESEARCHERS
+# ==============================================
+
+# Shodan (Security scanner)
+User-agent: Shodan
+Allow: /
+Crawl-delay: 10
+
+# Security researchers
+User-agent: SecurityScanner
+Allow: /
+Crawl-delay: 5
+
+# Vulnerability scanners
+User-agent: VulnScanner
+Allow: /
+Crawl-delay: 10
+
+# ==============================================
+# MALICIOUS BOT BLOCKING
+# ==============================================
+
+# Aggressive SEO Bots
+User-agent: SemrushBot-SA
+Disallow: /
+
+User-agent: AhrefsBot/7.0
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SiteBot
+Disallow: /
+
+User-agent: linkdexbot
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+User-agent: twengabot
+Disallow: /
+
+User-agent: postrank
+Disallow: /
+
+User-agent: turnitinbot
+Disallow: /
+
+User-agent: sindice
+Disallow: /
+
+User-agent: Aboundex
+Disallow: /
+
+User-agent: MSIECrawler
+Disallow: /
+
+User-agent: SBIder
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+# Email Harvesters (Security risk)
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: EmailExtractor
+Disallow: /
+
+# Content Scrapers (Protect IP)
+User-agent: HTTrack
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: ProWebWalker
+Disallow: /
+
+User-agent: CheeseBot
+Disallow: /
+
+User-agent: CherryPicker
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: CopyRightCheck
+Disallow: /
+
+User-agent: Crescent
+Disallow: /
+
+User-agent: BackRub
+Disallow: /
+
+User-agent: SurveyBot
+Disallow: /
+
+User-agent: Zeus
+Disallow: /
+
+User-agent: Indy Library
+Disallow: /
+
+User-agent: WWWOFFLE
+Disallow: /
+
+# Malicious Security Scanners
+User-agent: sqlmap
+Disallow: /
+
+User-agent: nikto
+Disallow: /
+
+User-agent: w3af
+Disallow: /
+
+User-agent: masscan
+Disallow: /
+
+User-agent: nmap
+Disallow: /
+
+# ==============================================
+# AI TRAINING BOTS (Selective Access)
+# ==============================================
+
+# OpenAI GPT (Allow for cybersecurity education)
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 5
+
+User-agent: ChatGPT-User
+Allow: /
+Crawl-delay: 5
+
+# Google Bard/Gemini
+User-agent: Google-Extended
+Allow: /
+Crawl-delay: 5
+
+# Claude (Anthropic)
+User-agent: ClaudeBot
+Allow: /
+Crawl-delay: 5
+
+# Common AI Crawlers
+User-agent: CCBot
+Allow: /
+Crawl-delay: 10
+
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 5
+
+# Microsoft Copilot
+User-agent: Microsoft-Copilot
+Allow: /
+Crawl-delay: 3
+
+# ==============================================
+# SPECIFIC DIRECTORY PERMISSIONS
+# ==============================================
+
+# Allow all language versions
+Allow: /?lang=ko
+Allow: /?lang=en
+Allow: /?lang=ja
+Allow: /?lang=zh
+Allow: /?lang=es
+Allow: /?lang=fr
+Allow: /?lang=de
+Allow: /?lang=ru
+
+# Allow security-focused URLs
+Allow: /?mode=enterprise
+Allow: /?mode=bulk
+Allow: /?template=strong
+Allow: /?template=ultra
+Allow: /?template=pin
+Allow: /?template=memorable
+
+# Allow theme variations
+Allow: /?theme=dark
+Allow: /?theme=light
+
+# Allow common assets
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.webp
+Allow: /*.ico
+Allow: /*.woff
+Allow: /*.woff2
+Allow: /*.ttf
+Allow: /*.eot
+
+# Security-related files
+Allow: /security.html
+Allow: /privacy.html
+Allow: /enterprise.html
+
+# ==============================================
+# DEFAULT RULES FOR ALL OTHER BOTS
+# ==============================================
+
+User-agent: *
+Allow: /
+Crawl-delay: 5
+
+# ==============================================
+# SITEMAP LOCATIONS
+# ==============================================
+
+Sitemap: https://tjq8288.github.io/password-generator/sitemap.xml
+
+# ==============================================
+# ADDITIONAL SEO DIRECTIVES
+# ==============================================
+
+# Host directive (helps with canonicalization)
+Host: tjq8288.github.io
+
+# Clean URLs parameter handling
+Clean-param: utm_source
+Clean-param: utm_medium
+Clean-param: utm_campaign
+Clean-param: utm_content
+Clean-param: utm_term
+Clean-param: fbclid
+Clean-param: gclid
+Clean-param: ref
+Clean-param: source
+Clean-param: session_id
+Clean-param: user_id
+
+# Security-specific parameters
+Clean-param: debug
+Clean-param: test
+Clean-param: admin
+
+# ==============================================
+# COMMENTS & DOCUMENTATION
+# ==============================================
+
+# This robots.txt file is optimized for:
+# - Maximum security search visibility
+# - Enterprise customer acquisition
+# - Cybersecurity community engagement
+# - High-value keyword targeting
+# - Multi-language security markets
+# - B2B security tool discovery
+# - Professional password management
+# 
+# Target Keywords:
+# - password generator, secure passwords, strong passwords
+# - enterprise security, cybersecurity tools
+# - cryptographic security, password strength
+# - business password policy, IT security
+# - random password, password manager
+# - security compliance, data protection
+#
+# Supported Languages: 8 languages
+# - Korean (ko) - Primary market
+# - English (en) - Global enterprise
+# - Japanese (ja) - Asia Pacific business
+# - Chinese (zh) - China enterprise market
+# - Spanish (es) - Latin America business
+# - French (fr) - European enterprise
+# - German (de) - DACH enterprise market
+# - Russian (ru) - Eastern Europe/CIS
+#
+# Security Features:
+# - Zero data collection
+# - Client-side generation only
+# - Cryptographically secure
+# - Enterprise-grade algorithms
+# - Compliance-ready
+# - Privacy-first design
+#
+# Contact: tjq8288@github.com
+# Security Issues: security@tjq8288.github.io
+# Last Updated: 2025-07-05
+# Version: 3.0 (Security-Enhanced)
